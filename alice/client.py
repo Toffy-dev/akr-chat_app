@@ -28,6 +28,7 @@ class Client:
         while True:
             try:
                 #obdržení zprávy
+                print("Recieving message")
                 message = self.client.recv(4096)
                 if message == self.made_message:
                     continue
@@ -37,17 +38,21 @@ class Client:
                     self.client.send(self.nickname.encode(FORMAT))
                 #pokud posíláme více proměných naráz
                 elif len(message.split('\n')) == 2:
+                    print(f"Printing encrypted message {message}")
                     msg, ciphertext = message.split('\n')
                     # musíme odstranit ze stringu znak pro bytes a naslendně se zbavit \\ a nahradit za \
+                    print("Parsing message into 2 variables")
                     msg = msg[2:-1]
                     msg = msg.encode(FORMAT)
                     msg = msg.decode('unicode_escape').encode("raw_unicode_escape")
                     ciphertext = ciphertext[2:-1]
                     ciphertext = ciphertext.encode(FORMAT)
                     ciphertext = ciphertext.decode('unicode_escape').encode("raw_unicode_escape")
-
+                    print("Passing parameters into decryption function")
+                    print("Printing decrypted message")
                     print(decrypt(self.private_key, ciphertext, self.iv, msg))
                 else:
+                    print("Printing plain message")
                     print(message)
             except:
                 # ukončení spojení
@@ -59,15 +64,20 @@ class Client:
     def write(self):
         while True:
             self.made_message = '{}: {}'.format(self.nickname, input(''))
+            print("Printing original message")
             print(self.made_message)
+            print("Encrypting message with AES")
             self.made_message = encrypt_AES(self.secret_key, self.iv, self.made_message)
+            print("Encrypting secret key hash with RSA ")
             ciphertext = encrypt_RSA(self.secret_key, self.public_key)
+            print("Adding encrypted message and encrypted\nhash together and sending them to server")
             self.made_message = str.encode("\n".join([str(self.made_message), str(ciphertext)]))
             self.client.sendall(self.made_message)
 
 
     def run(self):
         # zahájení spojení
+        print("Starting client")
         receive_thread = threading.Thread(target=self.receive)
         receive_thread.start()
 
