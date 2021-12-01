@@ -21,7 +21,7 @@ class Client:
     client.connect(('127.0.0.1', 55555))
     def __init__(self):
         # Choosing Nickname
-        self.nickname = input("Choose your nickname: ")
+        self.nickname = 'Bob'
 
         # Listening to Server and Sending Nickname
     def receive(self):
