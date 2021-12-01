@@ -18,7 +18,7 @@ class Client:
     made_message = ''
     # Connecting To Server
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('127.0.0.1', 55555))
+    client.connect(('172.104.251.45', 55555))
     def __init__(self):
         # Choosing Nickname
         self.nickname = 'Bob'
