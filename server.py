@@ -31,7 +31,8 @@ def handle(client):
     while True:
         try:
             # Broadcasting Messages
-            message = client.recv(1024)
+            
+            message = client.recv(4096)
             broadcast(message)
         except:
             # Removing And Closing Clients
@@ -54,7 +55,7 @@ def receive():
 
         # Request And Store Nickname
         client.send('NICK'.encode(FORMAT))
-        nickname = client.recv(1024).decode(FORMAT)
+        nickname = client.recv(4096).decode(FORMAT)
         nicknames.append(nickname)
         clients.append(client)
 
