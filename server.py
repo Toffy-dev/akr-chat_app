@@ -5,7 +5,7 @@ import threading
 FORMAT = 'ascii'
 
 # Connection Data
-host = '172.104.251.45'
+host = '127.0.0.1'
 port = 55555
 
 # Starting Server
