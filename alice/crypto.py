@@ -25,12 +25,9 @@ def encrypt_AES(secret_key, iv, message) -> bytes:
     padder = pd.PKCS7(128).padder()
     padded_data = padder.update(message.encode(FORMAT))
     padded_data += padder.finalize()
-    #print(padded_data.decode(FORMAT))
     message = encryptor.update(padded_data) + encryptor.finalize()
     return message
-    # vygeneruj klíče pro RSA
-    # private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-    # public_key = private_key.public_key()
+
 
     # zašifruj klíč RSA pomocí veřejného klíče
 def encrypt_RSA(secret_key, public_key):
@@ -86,4 +83,3 @@ def load_sec_key():
             password=b"heslo123",
         )
     return private_key
-#print(encrypt_AES(secret_key, iv, message))

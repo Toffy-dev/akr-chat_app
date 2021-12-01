@@ -26,7 +26,9 @@ def handle(client):
     while True:
         try:
             # rozeslání zpáv
+            print("Recieving message")
             message = client.recv(4096)
+            print("Sending message")
             broadcast(message)
         except:
             # odebiraní a ukončení komunikace s klientem

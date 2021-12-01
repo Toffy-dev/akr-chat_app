@@ -7,15 +7,15 @@ import datetime
 import uuid
 
 one_day = datetime.timedelta(1, 0, 0)
-# generates private key
+# generování sokromého klíče
 private_key = rsa.generate_private_key(
     public_exponent=65537,
     key_size=2048,
     backend=default_backend()
 )
-# from private key calculates public key
+# vypočítání veřejného klíče ze soukromého
 public_key = private_key.public_key()
-
+# vytvoření certifikátu
 builder = x509.CertificateBuilder()
 builder = builder.subject_name(x509.Name([
     x509.NameAttribute(NameOID.COMMON_NAME, u'alice'),
