@@ -12,7 +12,7 @@ import hashlib
 
 FORMAT = 'ascii'
 IV = b'\x0bX\xae\xe3y\xd32\xb5B\xd7\xf3\xf8\r\xe1s\x06'
-# vygeneruj tajný klíč
+
 def encrypt_AES(secret_key, iv, message) -> bytes:
     # zahešuj tajný klíč pro AES
     hash = hashlib.sha256()
@@ -21,15 +21,12 @@ def encrypt_AES(secret_key, iv, message) -> bytes:
     # zašifruj zprávu AES a zahešovaným tajným klíčem
     cipher = Cipher(algorithms.AES(hashed_key), modes.CBC(iv))
     encryptor = cipher.encryptor()
+    # přidaní místa pro nasobky 16ky pro funkci aes
     padder = pd.PKCS7(128).padder()
     padded_data = padder.update(message.encode(FORMAT))
     padded_data += padder.finalize()
-    #print(padded_data.decode(FORMAT))
     message = encryptor.update(padded_data) + encryptor.finalize()
     return message
-    # vygeneruj klíče pro RSA
-    # private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-    # public_key = private_key.public_key()
 
     # zašifruj klíč RSA pomocí veřejného klíče
 def encrypt_RSA(secret_key, public_key):
@@ -67,22 +64,20 @@ def decrypt(private_key, ciphertext, iv, message) -> bytes:
     unpadder = pd.PKCS7(128).unpadder()
     data = unpadder.update(to_unpadd)
     message = data + unpadder.finalize()
-    #print(message.decode(FORMAT))
-    return message
+    return message.decode(FORMAT)
 
 def load_pub_key():
     # load public key from certificate
-    with open("alice.crt", "rb") as key_file:
+    with open("OPPONENTS_CERTIFICATE.crt", "rb") as key_file:
         cert_obj = x509.load_pem_x509_certificate(key_file.read(), default_backend())
         public_key = cert_obj.public_key()
     return public_key
 
 def load_sec_key():
     # load secret key from file
-    with open("alice.key", "rb") as key_file:
+    with open("SECRET.key", "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=b"heslo123",
         )
     return private_key
-#print(encrypt_AES(secret_key, iv, message))

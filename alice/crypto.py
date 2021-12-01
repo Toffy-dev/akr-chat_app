@@ -21,6 +21,7 @@ def encrypt_AES(secret_key, iv, message) -> bytes:
     # zašifruj zprávu AES a zahešovaným tajným klíčem
     cipher = Cipher(algorithms.AES(hashed_key), modes.CBC(iv))
     encryptor = cipher.encryptor()
+    # přidaní místa pro nasobky 16ky pro funkci aes
     padder = pd.PKCS7(128).padder()
     padded_data = padder.update(message.encode(FORMAT))
     padded_data += padder.finalize()
