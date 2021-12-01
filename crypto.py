@@ -7,12 +7,12 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding as pd
 import hashlib
 
-FORMAT = 'UTF-8'
+FORMAT = 'ascii'
 secret_key = os.urandom(32)
 iv = os.urandom(16)
 message = 'hello zprava'
 # vygeneruj tajný klíč
-def encrypt_AES(secret_key, iv, message):
+def encrypt_AES(secret_key, iv, message) -> bytes:
     # zahešuj tajný klíč pro AES
     hash = hashlib.sha256()
     hash.update(secret_key)
@@ -44,7 +44,7 @@ def encrypt_RSA(secret_key, public_key):
     return ciphertext
 # -- dešifrovaní --
 
-def decrypt(private_key, ciphertext, iv, message):
+def decrypt(private_key, ciphertext, iv, message) -> bytes:
 # dešifruj klíč pomocí soukromého klíče
     dec_rsa = private_key.decrypt(
         ciphertext,
@@ -67,6 +67,6 @@ def decrypt(private_key, ciphertext, iv, message):
     data = unpadder.update(to_unpadd)
     message = data + unpadder.finalize()
     #print(message.decode(FORMAT))
-    return message
+    return message.decode(FORMAT)
 
 #print(encrypt_AES(secret_key, iv, message))

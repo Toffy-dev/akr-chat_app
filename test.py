@@ -1,4 +1,4 @@
-
+import sys
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
@@ -45,6 +45,8 @@ ciphertext = public_key.encrypt(
         label=None
     )
 )
+print('\n\n\n')
+print(ciphertext)
 # -- dešifrovaní --
 msg = message
 print(f'private_key: {type(private_key)}\nciphertext: {type(ciphertext)}\niv: {type(iv)}\nmessage: {type(msg)}')
@@ -75,5 +77,12 @@ data = unpadder.update(to_unpadd)
 message = data + unpadder.finalize()
 print(message.decode(FORMAT))
 
-qwer = 'abcdef'
-print(qwer[2:-1])
+qwer1 = b'Uz=5\x8b\xc0\xe1{y\x05T\x07`\xf9\x0cp'
+qwer2 = str(b'abcdef')
+print("here:")
+print(qwer2[2:-1].encode('utf-8'))
+print(qwer1 == qwer2[2:-1].encode('utf-8'))
+integer = int.from_bytes(qwer1, byteorder=sys.byteorder)
+print(integer)
+print(qwer1 == integer.to_bytes(1, 'big'))
+print(integer.to_bytes(10, 'big'))
