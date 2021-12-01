@@ -36,7 +36,7 @@ class Client:
                     ciphertext = ciphertext[2:-1]
                     print(f'private_key: {type(private_key)}\nciphertext: {type(ciphertext.encode(FORMAT))}\niv: {type(iv)}\nmessage: {type(msg.encode(FORMAT))}')
                     print(f'private_key: {private_key}\nciphertext: {ciphertext.encode(FORMAT)}\niv: {iv}\nmessage: {msg.encode(FORMAT)}')
-                    print(decrypt(private_key, ciphertext.encode(FORMAT), iv, msg.encode(FORMAT)))
+                    #print(decrypt(private_key, ciphertext.encode(FORMAT), iv, msg.encode(FORMAT)))
                 else:
                     print(message)
             except:
