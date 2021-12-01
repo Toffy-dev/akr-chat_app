@@ -68,7 +68,7 @@ def decrypt(private_key, ciphertext, iv, message) -> bytes:
     data = unpadder.update(to_unpadd)
     message = data + unpadder.finalize()
     #print(message.decode(FORMAT))
-    return message
+    return message.decode(FORMAT)
 
 def load_pub_key():
     # load public key from certificate
@@ -79,7 +79,7 @@ def load_pub_key():
 
 def load_sec_key():
     # load secret key from file
-    with open("alice.key", "rb") as key_file:
+    with open("bob.key", "rb") as key_file:
         private_key = serialization.load_pem_private_key(
             key_file.read(),
             password=b"heslo123",

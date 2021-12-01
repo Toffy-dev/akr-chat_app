@@ -18,13 +18,13 @@ public_key = private_key.public_key()
 
 builder = x509.CertificateBuilder()
 builder = builder.subject_name(x509.Name([
-    x509.NameAttribute(NameOID.COMMON_NAME, u'openstack-ansible Test CA'),
-    x509.NameAttribute(NameOID.ORGANIZATION_NAME, u'openstack-ansible'),
+    x509.NameAttribute(NameOID.COMMON_NAME, u'alice'),
+    x509.NameAttribute(NameOID.ORGANIZATION_NAME, u''),
     x509.NameAttribute(NameOID.ORGANIZATIONAL_UNIT_NAME,
-                       u'Default CA Deployment'),
+                       u''),
 ]))
 builder = builder.issuer_name(x509.Name([
-    x509.NameAttribute(NameOID.COMMON_NAME, u'openstack-ansible Test CA'),
+    x509.NameAttribute(NameOID.COMMON_NAME, u'AKR-test-CA'),
 ]))
 builder = builder.not_valid_before(datetime.datetime.today() - one_day)
 builder = builder.not_valid_after(datetime.datetime(2023, 8, 2))
@@ -40,20 +40,15 @@ certificate = builder.sign(
 )
 print(isinstance(certificate, x509.Certificate))
 
-with open("ca.key", "wb") as f:
+with open("alice.key", "wb") as f:
     f.write(private_key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.TraditionalOpenSSL,
         encryption_algorithm=serialization.BestAvailableEncryption(
-            b"openstack-ansible")
+            b"heslo123")
     ))
 
-with open("ca.crt", "wb") as f:
+with open("alice.crt", "wb") as f:
     f.write(certificate.public_bytes(
         encoding=serialization.Encoding.PEM,
-    ))
-with open("ca_pub_key.pem", "wb") as f:
-    f.write(certificate.public_key(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo
     ))

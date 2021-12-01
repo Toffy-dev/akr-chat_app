@@ -11,7 +11,7 @@ port = 55555
 # Starting Server
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host, port))
-server.listen()
+server.listen(2)
 
 # Lists For Clients and Their Nicknames
 clients = []
@@ -23,6 +23,7 @@ nicknames = []
 def broadcast(message):
     for client in clients:
         client.send(message)
+        
 
 # Handling Messages From Clients
 
@@ -52,7 +53,7 @@ def receive():
         # Accept Connection
         client, address = server.accept()
         print("Connected with {}".format(str(address)))
-
+        
         # Request And Store Nickname
         client.send('NICK'.encode(FORMAT))
         nickname = client.recv(4096).decode(FORMAT)

@@ -68,11 +68,11 @@ def decrypt(private_key, ciphertext, iv, message) -> bytes:
     data = unpadder.update(to_unpadd)
     message = data + unpadder.finalize()
     #print(message.decode(FORMAT))
-    return message
+    return message.decode(FORMAT)
 
 def load_pub_key():
     # load public key from certificate
-    with open("alice.crt", "rb") as key_file:
+    with open("bob.crt", "rb") as key_file:
         cert_obj = x509.load_pem_x509_certificate(key_file.read(), default_backend())
         public_key = cert_obj.public_key()
     return public_key

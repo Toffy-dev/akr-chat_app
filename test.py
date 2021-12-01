@@ -33,7 +33,7 @@ print(message)
 # vygeneruj klíče pro RSA
 private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
 public_key = private_key.public_key()
-print("privatekey :")
+print("\n\n\nprivatekey :")
 print(private_key)
 # zašifruj klíč RSA pomocí veřejného klíče
 msg_rsa = secret_key
@@ -76,13 +76,3 @@ unpadder = pd.PKCS7(128).unpadder()
 data = unpadder.update(to_unpadd)
 message = data + unpadder.finalize()
 print(message.decode(FORMAT))
-
-qwer1 = b'Uz=5\x8b\xc0\xe1{y\x05T\x07`\xf9\x0cp'
-qwer2 = str(b'abcdef')
-print("here:")
-print(qwer2[2:-1].encode('utf-8'))
-print(qwer1 == qwer2[2:-1].encode('utf-8'))
-integer = int.from_bytes(qwer1, byteorder=sys.byteorder)
-print(integer)
-print(qwer1 == integer.to_bytes(1, 'big'))
-print(integer.to_bytes(10, 'big'))
