@@ -1,7 +1,7 @@
 import os
 import socket
 import threading
-from crypto import encrypt_AES, encrypt_RSA
+from crypto import decrypt, encrypt_AES, encrypt_RSA
 from cryptography.hazmat.primitives.asymmetric import rsa
 
 FORMAT = 'UTF-8'
@@ -32,7 +32,11 @@ class Client:
                     self.client.send(self.nickname.encode(FORMAT))
                 elif len(message.split('\n')) == 2:
                     msg, ciphertext = message.split('\n')
-                    print(f'message: {msg}\nciphertext: {ciphertext}')
+                    msg = msg[2:-1]
+                    ciphertext = ciphertext[2:-1]
+                    print(f'private_key: {type(private_key)}\nciphertext: {type(ciphertext.encode(FORMAT))}\niv: {type(iv)}\nmessage: {type(msg.encode(FORMAT))}')
+                    print(f'private_key: {private_key}\nciphertext: {ciphertext.encode(FORMAT)}\niv: {iv}\nmessage: {msg.encode(FORMAT)}')
+                    print(decrypt(private_key, ciphertext.encode(FORMAT), iv, msg.encode(FORMAT)))
                 else:
                     print(message)
             except:

@@ -13,7 +13,7 @@ FORMAT = 'UTF-8'
 # vygeneruj tajný klíč
 secret_key = os.urandom(32)
 
-initialization_vector = os.urandom(16)
+iv = os.urandom(16)
 
 # zahešuj tajný klíč pro AES
 hash = hashlib.sha256()
@@ -22,7 +22,7 @@ hashed_key = hash.digest()
 print(hashed_key)
 # zašifruj zprávu AES a zahešovaným tajným klíčem
 print(secret_key)
-cipher = Cipher(algorithms.AES(hashed_key), modes.CBC(initialization_vector))
+cipher = Cipher(algorithms.AES(hashed_key), modes.CBC(iv))
 encryptor = cipher.encryptor()
 padder = pd.PKCS7(128).padder()
 padded_data = padder.update(b"libovolne dlouha zprava jhhjhjhj")
@@ -46,6 +46,9 @@ ciphertext = public_key.encrypt(
     )
 )
 # -- dešifrovaní --
+msg = message
+print(f'private_key: {type(private_key)}\nciphertext: {type(ciphertext)}\niv: {type(iv)}\nmessage: {type(msg)}')
+print(f'private_key: {private_key}\nciphertext: {ciphertext}\niv: {iv}\nmessage: {msg}')
 # dešifruj klíč pomocí soukromého klíče
 dec_rsa = private_key.decrypt(
     ciphertext,
@@ -62,7 +65,7 @@ AES_hash_key = hash.digest()
 print(AES_hash_key)
 
 # dešifruj zprávu pomocí aes a zahešovaného klíče
-decryptor = Cipher(algorithms.AES(AES_hash_key), modes.CBC(initialization_vector)).decryptor()
+decryptor = Cipher(algorithms.AES(AES_hash_key), modes.CBC(iv)).decryptor()
 # vypiš zprávu
 print(message)
 to_unpadd = decryptor.update(message)
@@ -72,3 +75,5 @@ data = unpadder.update(to_unpadd)
 message = data + unpadder.finalize()
 print(message.decode(FORMAT))
 
+qwer = 'abcdef'
+print(qwer[2:-1])

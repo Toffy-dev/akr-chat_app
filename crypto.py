@@ -43,6 +43,7 @@ def encrypt_RSA(secret_key, public_key):
     )
     return ciphertext
 # -- dešifrovaní --
+
 def decrypt(private_key, ciphertext, iv, message):
 # dešifruj klíč pomocí soukromého klíče
     dec_rsa = private_key.decrypt(
